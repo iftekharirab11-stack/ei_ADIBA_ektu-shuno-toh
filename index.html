@@ -1,259 +1,593 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Question for You...</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --magenta: #FF00FF;
-            --pink: #FFC0CB;
-            --orange: #FFA500;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Question...</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;min-height:100%;overflow-x:hidden;}
 
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, var(--magenta), var(--pink), var(--orange));
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
-        }
+body{
+  min-height:100vh;
+  background: #1a0010;
+  font-family:'Lato',sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+/* animated gradient orbs */
+.orb{
+  position:fixed;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:0.55;
+  pointer-events:none;
+  z-index:0;
+  animation:orbMove 18s ease-in-out infinite alternate;
+}
+.orb1{width:600px;height:600px;background:#FF00FF;top:-150px;left:-150px;animation-duration:20s;}
+.orb2{width:500px;height:500px;background:#FF6B35;bottom:-100px;right:-100px;animation-duration:24s;animation-delay:-8s;}
+.orb3{width:350px;height:350px;background:#FF69B4;top:40%;left:40%;animation-duration:16s;animation-delay:-4s;}
 
-        .container {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 90%;
-            max-width: 500px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            z-index: 10;
-        }
+@keyframes orbMove{
+  0%{transform:translate(0,0) scale(1);}
+  100%{transform:translate(60px,40px) scale(1.15);}
+}
 
-        .page {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
+/* petals */
+.petal{
+  position:fixed;
+  font-size:1.4rem;
+  opacity:0;
+  pointer-events:none;
+  z-index:1;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  0%{transform:translateY(-60px) rotate(0deg);opacity:0.8;}
+  100%{transform:translateY(110vh) rotate(720deg);opacity:0;}
+}
 
-        .page.active {
-            display: block;
-            opacity: 1;
-        }
+/* background text layer */
+.bg-text-layer{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  overflow:hidden;
+  pointer-events:none;
+}
+.bg-word{
+  position:absolute;
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  color:rgba(255,255,255,0.06);
+  font-size:clamp(2rem,5vw,4rem);
+  white-space:nowrap;
+  user-select:none;
+}
 
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            color: #fff;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
-        }
+/* card */
+.card{
+  position:relative;
+  z-index:10;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:28px;
+  padding:50px 44px 44px;
+  width:92%;
+  max-width:520px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+}
 
-        .pet-names {
-            font-family: 'Dancing Script', cursive;
-            color: #fff;
-            font-size: 1.2rem;
-            opacity: 0.8;
-            margin-bottom: 20px;
-        }
+/* pages */
+.page{display:none;animation:fadeUp 0.6s ease forwards;}
+.page.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 
-        button {
-            background: #fff;
-            color: var(--magenta);
-            border: none;
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin: 10px;
-            font-family: 'Poppins', sans-serif;
-        }
+/* typography */
+.pet-names{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  color:rgba(255,220,240,0.7);
+  font-size:1rem;
+  letter-spacing:0.04em;
+  margin-bottom:22px;
+  line-height:1.9;
+}
+.big-q{
+  font-family:'Playfair Display',serif;
+  color:#fff;
+  font-size:clamp(1.6rem,4vw,2.2rem);
+  line-height:1.35;
+  margin-bottom:36px;
+  text-shadow:0 2px 20px rgba(255,0,180,0.4);
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  color:#fff;
+  font-size:1.8rem;
+  margin-bottom:28px;
+  text-shadow:0 2px 16px rgba(255,80,0,0.4);
+}
+.step-hint{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  color:rgba(255,200,220,0.65);
+  font-size:0.92rem;
+  margin-bottom:20px;
+  letter-spacing:0.03em;
+}
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        }
+/* YES button */
+.btn-yes{
+  background:linear-gradient(135deg,#FF00FF,#FF6B35);
+  color:#fff;
+  border:none;
+  padding:14px 48px;
+  font-size:1.1rem;
+  font-family:'Lato',sans-serif;
+  font-weight:400;
+  letter-spacing:0.08em;
+  border-radius:50px;
+  cursor:pointer;
+  transition:transform 0.2s,box-shadow 0.2s;
+  box-shadow:0 6px 28px rgba(255,0,200,0.45);
+  text-transform:uppercase;
+}
+.btn-yes:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 10px 36px rgba(255,0,200,0.6);}
 
-        #btnNo {
-            position: absolute;
-            background: #ffe6e6;
-            color: #ff4d4d;
-        }
+/* NO button */
+#btnNo{
+  position:fixed;
+  background:rgba(255,255,255,0.12);
+  color:rgba(255,200,220,0.8);
+  border:1px solid rgba(255,255,255,0.2);
+  padding:12px 36px;
+  font-size:0.95rem;
+  font-family:'Lato',sans-serif;
+  border-radius:50px;
+  cursor:not-allowed;
+  transition:none;
+  z-index:100;
+  top:80%;
+  left:60%;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+}
 
-        select, input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border: none;
-            font-family: 'Poppins', sans-serif;
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-        }
+/* next button */
+.btn-next{
+  background:rgba(255,255,255,0.15);
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.35);
+  padding:12px 40px;
+  font-size:1rem;
+  font-family:'Lato',sans-serif;
+  letter-spacing:0.06em;
+  border-radius:50px;
+  cursor:pointer;
+  transition:background 0.2s,transform 0.2s;
+  margin-top:18px;
+  text-transform:uppercase;
+}
+.btn-next:hover{background:rgba(255,255,255,0.25);transform:translateY(-2px);}
 
-        select:focus {
-            outline: 2px solid var(--magenta);
-        }
+/* date grid */
+.date-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:18px 0 6px;
+}
+.date-card{
+  background:rgba(255,255,255,0.09);
+  border:1.5px solid rgba(255,255,255,0.15);
+  border-radius:14px;
+  padding:14px 10px;
+  cursor:pointer;
+  transition:all 0.22s;
+  color:#fff;
+}
+.date-card:hover,.date-card.sel{
+  background:rgba(255,0,200,0.25);
+  border-color:rgba(255,0,200,0.7);
+  box-shadow:0 0 18px rgba(255,0,200,0.3);
+}
+.date-card .day-name{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  color:rgba(255,200,230,0.8);
+  font-size:0.85rem;
+  margin-bottom:4px;
+}
+.date-card .day-num{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;
+  font-weight:700;
+}
+.date-card .month{
+  font-size:0.8rem;
+  color:rgba(255,255,255,0.65);
+  letter-spacing:0.05em;
+  margin-top:2px;
+}
 
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 20px 0;
-            text-align: left;
-        }
+/* time select */
+.time-select{
+  width:100%;
+  padding:13px 16px;
+  margin-top:18px;
+  border-radius:12px;
+  border:1.5px solid rgba(255,255,255,0.25);
+  background:rgba(255,255,255,0.1);
+  color:#fff;
+  font-size:1rem;
+  font-family:'Lato',sans-serif;
+  appearance:none;
+  -webkit-appearance:none;
+  cursor:pointer;
+  letter-spacing:0.03em;
+}
+.time-select option{background:#3a0025;color:#fff;}
+.time-select:focus{outline:none;border-color:rgba(255,0,200,0.7);}
 
-        .radio-label {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.3s;
-            color: #333;
-            font-weight: 600;
-        }
+/* vibe pills */
+.vibe-grid{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin:20px 0 8px;
+}
+.vibe-label{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:rgba(255,255,255,0.09);
+  border:1.5px solid rgba(255,255,255,0.14);
+  border-radius:14px;
+  padding:14px 18px;
+  cursor:pointer;
+  transition:all 0.2s;
+  color:#fff;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;
+  letter-spacing:0.03em;
+  text-align:left;
+}
+.vibe-label:hover,.vibe-label.sel{
+  background:rgba(255,100,0,0.22);
+  border-color:rgba(255,120,0,0.65);
+  box-shadow:0 0 16px rgba(255,100,0,0.25);
+}
+.vibe-label input[type=radio]{
+  accent-color:#FF6B35;
+  width:18px;height:18px;
+  flex-shrink:0;
+}
+.vibe-emoji{font-size:1.4rem;}
 
-        .radio-label:hover {
-            background: #fff;
-        }
+/* progress dots */
+.dots{display:flex;justify-content:center;gap:8px;margin-bottom:28px;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.25);transition:background 0.3s;}
+.dot.active{background:#FF00FF;}
 
-        input[type="radio"] {
-            margin-right: 10px;
-        }
+/* hearts burst */
+.heart-burst{
+  position:fixed;
+  pointer-events:none;
+  z-index:9999;
+  font-size:1.5rem;
+  animation:burstUp 1s ease forwards;
+}
+@keyframes burstUp{
+  0%{opacity:1;transform:translate(0,0) scale(1);}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0.5);}
+}
 
-        .floating-bg {
-            position: absolute;
-            font-family: 'Dancing Script', cursive;
-            color: rgba(255, 255, 255, 0.1);
-            font-size: 3rem;
-            pointer-events: none;
-            z-index: 1;
-            user-select: none;
-        }
-    </style>
+/* success page */
+.success-icon{font-size:3.5rem;margin-bottom:18px;}
+.success-text{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  color:#fff;
+  font-size:1.7rem;
+  margin-bottom:12px;
+}
+.success-sub{
+  font-family:'Cormorant Garamond',serif;
+  color:rgba(255,210,230,0.8);
+  font-size:1.05rem;
+  line-height:1.7;
+}
+
+/* error message */
+.err{color:#ffaacc;font-size:0.85rem;margin-top:8px;font-style:italic;display:none;}
+</style>
 </head>
 <body>
 
-    <div class="floating-bg" style="top: 10%; left: 5%;">adiba</div>
-    <div class="floating-bg" style="top: 30%; right: 10%;">tadiba</div>
-    <div class="floating-bg" style="bottom: 20%; left: 15%;">huneybunch</div>
-    <div class="floating-bg" style="top: 60%; left: 8%;">sugarcream</div>
-    <div class="floating-bg" style="bottom: 10%; right: 20%;">pumpkin</div>
-    <div class="floating-bg" style="top: 15%; right: 25%;">pewdepie</div>
+<!-- orbs -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
 
-    <div class="container">
-        <form id="dateForm" action="https://api.web3forms.com/submit" method="POST">
-            
-            <input type="hidden" name="access_key" value="9562bc22-0bba-46a9-98b7-cefb07ac752c">
-            <input type="hidden" name="subject" value="Adiba Said Yes!">
-            <input type="hidden" name="redirect" value="https://web3forms.com/success">
+<!-- bg text -->
+<div class="bg-text-layer">
+  <div class="bg-word" style="top:5%;left:2%;">adiba</div>
+  <div class="bg-word" style="top:18%;right:4%;">tadiba</div>
+  <div class="bg-word" style="top:35%;left:6%;">huneybunch</div>
+  <div class="bg-word" style="top:52%;right:8%;">sugarcream</div>
+  <div class="bg-word" style="top:68%;left:3%;">pumpkin</div>
+  <div class="bg-word" style="top:80%;right:5%;">pewdepie</div>
+  <div class="bg-word" style="top:90%;left:25%;">adiba</div>
+  <div class="bg-word" style="top:43%;left:45%;">tadiba</div>
+  <div class="bg-word" style="top:72%;right:30%;">huneybunch</div>
+</div>
 
-            <div id="page1" class="page active">
-                <div class="pet-names">adiba, tadiba, huneybunch, sugarcream, pumpkin, pewdepie...</div>
-                <h1>Will you go for a borger with this gorib?</h1>
-                <div style="position: relative; height: 100px; display: flex; justify-content: center; align-items: center; gap: 20px;">
-                    <button type="button" id="btnYes" onclick="nextPage('page1', 'page2')">Yes</button>
-                    <button type="button" id="btnNo">No</button>
-                </div>
-            </div>
+<!-- no button (always present, escapes) -->
+<button id="btnNo" onclick="return false;">No</button>
 
-            <div id="page2" class="page">
-                <h1>Perfect! When are we going?</h1>
-                
-                <select name="Selected Date" required>
-                    <option value="" disabled selected>Select a Date</option>
-                    <option value="13 June (Sat)">13 June (Saturday)</option>
-                    <option value="14 June (Sun)">14 June (Sunday)</option>
-                    <option value="19 June (Fri)">19 June (Friday)</option>
-                    <option value="20 June (Sat)">20 June (Saturday)</option>
-                    <option value="21 June (Sun)">21 June (Sunday)</option>
-                </select>
+<div class="card">
 
-                <select name="Selected Time" required>
-                    <option value="" disabled selected>Select a Time</option>
-                    <option value="1 PM">1:00 PM</option>
-                    <option value="2 PM">2:00 PM</option>
-                    <option value="3 PM">3:00 PM</option>
-                    <option value="4 PM">4:00 PM</option>
-                    <option value="5 PM">5:00 PM</option>
-                    <option value="6 PM">6:00 PM</option>
-                    <option value="7 PM">7:00 PM</option>
-                    <option value="8 PM">8:00 PM</option>
-                    <option value="9 PM">9:00 PM</option>
-                    <option value="10 PM">10:00 PM</option>
-                </select>
+  <!-- PAGE 1 -->
+  <div id="page1" class="page active">
+    <div class="dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="pet-names">adiba · tadiba · huneybunch<br>sugarcream · pumpkin · pewdepie</div>
+    <p class="big-q">Will you go for a borger<br>with this gorib? 🍔</p>
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;align-items:center;">
+      <button class="btn-yes" onclick="goPage(1,2);burst(event)">Yes, obviously 🌸</button>
+    </div>
+  </div>
 
-                <button type="button" onclick="nextPage('page2', 'page3')">Next</button>
-            </div>
+  <!-- PAGE 2 -->
+  <div id="page2" class="page">
+    <div class="dots"><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
+    <p class="section-title">When are we going?</p>
+    <p class="step-hint">pick a date that works for you, love</p>
 
-            <div id="page3" class="page">
-                <h1>What's the vibe?</h1>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="Vibe Choice" value="Coffee" required> Coffee
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="Vibe Choice" value="Borger"> Borger
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="Vibe Choice" value="1st Food"> 1st Food
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="Vibe Choice" value="Lunch"> Lunch
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="Vibe Choice" value="Hanging in Open"> Hanging in Open
-                    </label>
-                </div>
-                <button type="submit">Send to me</button>
-            </div>
-
-        </form>
+    <div class="date-grid" id="dateGrid">
+      <div class="date-card" data-val="13 June (Saturday)" onclick="pickDate(this)">
+        <div class="day-name">Saturday</div>
+        <div class="day-num">13</div>
+        <div class="month">JUNE</div>
+      </div>
+      <div class="date-card" data-val="14 June (Sunday)" onclick="pickDate(this)">
+        <div class="day-name">Sunday</div>
+        <div class="day-num">14</div>
+        <div class="month">JUNE</div>
+      </div>
+      <div class="date-card" data-val="19 June (Friday)" onclick="pickDate(this)">
+        <div class="day-name">Friday</div>
+        <div class="day-num">19</div>
+        <div class="month">JUNE</div>
+      </div>
+      <div class="date-card" data-val="20 June (Saturday)" onclick="pickDate(this)">
+        <div class="day-name">Saturday</div>
+        <div class="day-num">20</div>
+        <div class="month">JUNE</div>
+      </div>
+      <div class="date-card" style="grid-column:1/-1;" data-val="21 June (Sunday)" onclick="pickDate(this)">
+        <div class="day-name">Sunday</div>
+        <div class="day-num">21</div>
+        <div class="month">JUNE</div>
+      </div>
     </div>
 
-    <script>
-        function nextPage(current, next) {
-            document.getElementById(current).classList.remove('active');
-            setTimeout(() => {
-                document.getElementById(next).classList.add('active');
-            }, 50); 
-        }
+    <select class="time-select" id="timeSelect">
+      <option value="" disabled selected>— pick a time —</option>
+      <option>12:00 PM (noon)</option>
+      <option>1:00 PM</option>
+      <option>2:00 PM</option>
+      <option>3:00 PM</option>
+      <option>4:00 PM</option>
+      <option>5:00 PM</option>
+      <option>6:00 PM</option>
+      <option>7:00 PM</option>
+      <option>8:00 PM</option>
+      <option>9:00 PM</option>
+      <option>10:00 PM</option>
+    </select>
+    <div class="err" id="err2">please pick a date and time first ✨</div>
+    <br>
+    <button class="btn-next" onclick="nextPage2()">Next →</button>
+  </div>
 
-        const btnNo = document.getElementById('btnNo');
-        
-        const moveButton = () => {
-            const maxX = window.innerWidth - btnNo.offsetWidth - 20;
-            const maxY = window.innerHeight - btnNo.offsetHeight - 20;
-            
-            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+  <!-- PAGE 3 -->
+  <div id="page3" class="page">
+    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
+    <p class="section-title">What's the vibe?</p>
+    <p class="step-hint">choose the flavour of this evening</p>
 
-            btnNo.style.position = 'fixed';
-            btnNo.style.left = randomX + 'px';
-            btnNo.style.top = randomY + 'px';
-        };
+    <div class="vibe-grid" id="vibeGrid">
+      <label class="vibe-label" onclick="pickVibe(this)">
+        <input type="radio" name="vibe" value="Coffee"> <span class="vibe-emoji">☕</span> Coffee
+      </label>
+      <label class="vibe-label" onclick="pickVibe(this)">
+        <input type="radio" name="vibe" value="Borger"> <span class="vibe-emoji">🍔</span> Borger
+      </label>
+      <label class="vibe-label" onclick="pickVibe(this)">
+        <input type="radio" name="vibe" value="1st Food"> <span class="vibe-emoji">🍽️</span> 1st Food
+      </label>
+      <label class="vibe-label" onclick="pickVibe(this)">
+        <input type="radio" name="vibe" value="Lunch"> <span class="vibe-emoji">🥗</span> Lunch
+      </label>
+      <label class="vibe-label" onclick="pickVibe(this)">
+        <input type="radio" name="vibe" value="Hanging in Open"> <span class="vibe-emoji">🌆</span> Hanging in Open
+      </label>
+    </div>
 
-        btnNo.addEventListener('mouseover', moveButton);
-        btnNo.addEventListener('touchstart', moveButton);
-    </script>
+    <div class="err" id="err3">please choose a vibe first 🌸</div>
+    <button class="btn-yes" style="margin-top:20px;" onclick="submitForm()">Send it to him 💌</button>
+  </div>
+
+  <!-- PAGE 4 (success) -->
+  <div id="page4" class="page">
+    <div class="success-icon">💌</div>
+    <p class="success-text">It's a date.</p>
+    <p class="success-sub">He's going to be the happiest gorib alive.<br>See you soon, adiba. 🌸</p>
+  </div>
+
+</div>
+
+<script>
+// --- state ---
+var selDate = "";
+var selTime = "";
+var selVibe = "";
+
+// web3forms key
+var W3F_KEY = "9562bc22-0bba-46a9-98b7-cefb07ac752c";
+
+// --- no button ---
+var no = document.getElementById("btnNo");
+function moveNo(){
+  var maxX = window.innerWidth  - no.offsetWidth  - 20;
+  var maxY = window.innerHeight - no.offsetHeight - 20;
+  no.style.left = Math.max(10, Math.random()*maxX) + "px";
+  no.style.top  = Math.max(10, Math.random()*maxY) + "px";
+}
+no.addEventListener("mouseover", moveNo);
+no.addEventListener("touchstart", function(e){e.preventDefault();moveNo();});
+
+// --- page nav ---
+function goPage(from, to){
+  var fp = document.getElementById("page"+from);
+  var tp = document.getElementById("page"+to);
+  fp.classList.remove("active");
+  setTimeout(function(){tp.classList.add("active");}, 60);
+}
+
+// --- date pick ---
+function pickDate(el){
+  document.querySelectorAll(".date-card").forEach(function(c){c.classList.remove("sel");});
+  el.classList.add("sel");
+  selDate = el.getAttribute("data-val");
+}
+
+// --- vibe pick ---
+function pickVibe(el){
+  document.querySelectorAll(".vibe-label").forEach(function(l){l.classList.remove("sel");});
+  el.classList.add("sel");
+  el.querySelector("input").checked = true;
+  selVibe = el.querySelector("input").value;
+}
+
+// --- page 2 next ---
+function nextPage2(){
+  selTime = document.getElementById("timeSelect").value;
+  var err = document.getElementById("err2");
+  if(!selDate || !selTime){
+    err.style.display="block";
+    setTimeout(function(){err.style.display="none";},3000);
+    return;
+  }
+  err.style.display="none";
+  goPage(2,3);
+}
+
+// --- submit ---
+function submitForm(){
+  var err = document.getElementById("err3");
+  if(!selVibe){
+    err.style.display="block";
+    setTimeout(function(){err.style.display="none";},3000);
+    return;
+  }
+  err.style.display="none";
+
+  var payload = {
+    access_key: W3F_KEY,
+    subject: "Adiba Said YES! 🎉",
+    from_name: "Borger Date App",
+    "Selected Date": selDate,
+    "Selected Time": selTime,
+    "Vibe": selVibe
+  };
+
+  fetch("https://api.web3forms.com/submit", {
+    method:"POST",
+    headers:{"Content-Type":"application/json","Accept":"application/json"},
+    body: JSON.stringify(payload)
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    goPage(3,4);
+    launchCelebration();
+  })
+  .catch(function(){
+    // show success anyway for UX
+    goPage(3,4);
+    launchCelebration();
+  });
+}
+
+// --- hearts burst on yes click ---
+function burst(e){
+  var x = e.clientX, y = e.clientY;
+  var symbols = ["💗","🌸","✨","💫","🧡","💖"];
+  for(var i=0;i<12;i++){
+    var el = document.createElement("div");
+    el.className = "heart-burst";
+    el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    var dx = (Math.random()-0.5)*200 + "px";
+    var dy = -(60 + Math.random()*160) + "px";
+    el.style.setProperty("--dx",dx);
+    el.style.setProperty("--dy",dy);
+    el.style.left = x + "px";
+    el.style.top  = y + "px";
+    document.body.appendChild(el);
+    setTimeout(function(e){e.remove();},1000,el);
+  }
+}
+
+// --- celebration petals ---
+function launchCelebration(){
+  var symbols = ["🌸","💗","✨","🧡","💖","🌷","💫"];
+  for(var i=0;i<30;i++){
+    (function(idx){
+      setTimeout(function(){
+        var p = document.createElement("div");
+        p.className = "petal";
+        p.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+        p.style.left  = Math.random()*100 + "vw";
+        p.style.animationDuration = (4+Math.random()*5) + "s";
+        p.style.animationDelay   = (Math.random()*3) + "s";
+        p.style.fontSize = (1+Math.random()) + "rem";
+        document.body.appendChild(p);
+        setTimeout(function(){p.remove();},9000);
+      }, idx*200);
+    })(i);
+  }
+}
+
+// spawn a few petals on load
+window.addEventListener("load", function(){
+  setTimeout(function(){
+    var s = ["🌸","💗","✨"];
+    for(var i=0;i<6;i++){
+      (function(ii){
+        setTimeout(function(){
+          var p = document.createElement("div");
+          p.className="petal";
+          p.textContent=s[ii%s.length];
+          p.style.left=Math.random()*100+"vw";
+          p.style.animationDuration=(6+Math.random()*4)+"s";
+          p.style.animationDelay=(Math.random()*4)+"s";
+          document.body.appendChild(p);
+          setTimeout(function(){p.remove();},12000);
+        },ii*600);
+      })(i);
+    }
+  },800);
+});
+</script>
 </body>
 </html>
