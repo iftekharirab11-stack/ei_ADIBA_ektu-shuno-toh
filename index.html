@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Question for You...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --pink: #FFC0CB;
+            --orange: #FFA500;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--magenta), var(--pink), var(--orange));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .page {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #fff;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .pet-names {
+            font-family: 'Dancing Script', cursive;
+            color: #fff;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #fff;
+            color: var(--magenta);
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        #btnNo {
+            position: absolute;
+            background: #ffe6e6;
+            color: #ff4d4d;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+
+        select:focus {
+            outline: 2px solid var(--magenta);
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .radio-label {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .radio-label:hover {
+            background: #fff;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .floating-bg {
+            position: absolute;
+            font-family: 'Dancing Script', cursive;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 3rem;
+            pointer-events: none;
+            z-index: 1;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-bg" style="top: 10%; left: 5%;">adiba</div>
+    <div class="floating-bg" style="top: 30%; right: 10%;">tadiba</div>
+    <div class="floating-bg" style="bottom: 20%; left: 15%;">huneybunch</div>
+    <div class="floating-bg" style="top: 60%; left: 8%;">sugarcream</div>
+    <div class="floating-bg" style="bottom: 10%; right: 20%;">pumpkin</div>
+    <div class="floating-bg" style="top: 15%; right: 25%;">pewdepie</div>
+
+    <div class="container">
+        <form id="dateForm" action="https://api.web3forms.com/submit" method="POST">
+            
+            <input type="hidden" name="access_key" value="9562bc22-0bba-46a9-98b7-cefb07ac752c">
+            <input type="hidden" name="subject" value="Adiba Said Yes!">
+            <input type="hidden" name="redirect" value="https://web3forms.com/success">
+
+            <div id="page1" class="page active">
+                <div class="pet-names">adiba, tadiba, huneybunch, sugarcream, pumpkin, pewdepie...</div>
+                <h1>Will you go for a borger with this gorib?</h1>
+                <div style="position: relative; height: 100px; display: flex; justify-content: center; align-items: center; gap: 20px;">
+                    <button type="button" id="btnYes" onclick="nextPage('page1', 'page2')">Yes</button>
+                    <button type="button" id="btnNo">No</button>
+                </div>
+            </div>
+
+            <div id="page2" class="page">
+                <h1>Perfect! When are we going?</h1>
+                
+                <select name="Selected Date" required>
+                    <option value="" disabled selected>Select a Date</option>
+                    <option value="13 June (Sat)">13 June (Saturday)</option>
+                    <option value="14 June (Sun)">14 June (Sunday)</option>
+                    <option value="19 June (Fri)">19 June (Friday)</option>
+                    <option value="20 June (Sat)">20 June (Saturday)</option>
+                    <option value="21 June (Sun)">21 June (Sunday)</option>
+                </select>
+
+                <select name="Selected Time" required>
+                    <option value="" disabled selected>Select a Time</option>
+                    <option value="1 PM">1:00 PM</option>
+                    <option value="2 PM">2:00 PM</option>
+                    <option value="3 PM">3:00 PM</option>
+                    <option value="4 PM">4:00 PM</option>
+                    <option value="5 PM">5:00 PM</option>
+                    <option value="6 PM">6:00 PM</option>
+                    <option value="7 PM">7:00 PM</option>
+                    <option value="8 PM">8:00 PM</option>
+                    <option value="9 PM">9:00 PM</option>
+                    <option value="10 PM">10:00 PM</option>
+                </select>
+
+                <button type="button" onclick="nextPage('page2', 'page3')">Next</button>
+            </div>
+
+            <div id="page3" class="page">
+                <h1>What's the vibe?</h1>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="Vibe Choice" value="Coffee" required> Coffee
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="Vibe Choice" value="Borger"> Borger
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="Vibe Choice" value="1st Food"> 1st Food
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="Vibe Choice" value="Lunch"> Lunch
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="Vibe Choice" value="Hanging in Open"> Hanging in Open
+                    </label>
+                </div>
+                <button type="submit">Send to me</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        function nextPage(current, next) {
+            document.getElementById(current).classList.remove('active');
+            setTimeout(() => {
+                document.getElementById(next).classList.add('active');
+            }, 50); 
+        }
+
+        const btnNo = document.getElementById('btnNo');
+        
+        const moveButton = () => {
+            const maxX = window.innerWidth - btnNo.offsetWidth - 20;
+            const maxY = window.innerHeight - btnNo.offsetHeight - 20;
+            
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = randomX + 'px';
+            btnNo.style.top = randomY + 'px';
+        };
+
+        btnNo.addEventListener('mouseover', moveButton);
+        btnNo.addEventListener('touchstart', moveButton);
+    </script>
+</body>
+</html>
