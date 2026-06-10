@@ -4,336 +4,393 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Question...</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:100%;min-height:100%;overflow-x:hidden;}
 
 body{
   min-height:100vh;
-  background: #1a0010;
+  background:#1a0010;
   font-family:'Lato',sans-serif;
   display:flex;
   align-items:center;
   justify-content:center;
   position:relative;
+  padding:20px 0;
 }
 
-/* animated gradient orbs */
-.orb{
-  position:fixed;
-  border-radius:50%;
-  filter:blur(80px);
-  opacity:0.55;
-  pointer-events:none;
-  z-index:0;
-  animation:orbMove 18s ease-in-out infinite alternate;
-}
+.orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:0.5;pointer-events:none;z-index:0;animation:orbMove 18s ease-in-out infinite alternate;}
 .orb1{width:600px;height:600px;background:#FF00FF;top:-150px;left:-150px;animation-duration:20s;}
 .orb2{width:500px;height:500px;background:#FF6B35;bottom:-100px;right:-100px;animation-duration:24s;animation-delay:-8s;}
 .orb3{width:350px;height:350px;background:#FF69B4;top:40%;left:40%;animation-duration:16s;animation-delay:-4s;}
+@keyframes orbMove{0%{transform:translate(0,0) scale(1);}100%{transform:translate(60px,40px) scale(1.15);}}
 
-@keyframes orbMove{
-  0%{transform:translate(0,0) scale(1);}
-  100%{transform:translate(60px,40px) scale(1.15);}
-}
+.petal{position:fixed;font-size:1.4rem;opacity:0;pointer-events:none;z-index:1;animation:fall linear infinite;}
+@keyframes fall{0%{transform:translateY(-60px) rotate(0deg);opacity:0.8;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
 
-/* petals */
-.petal{
-  position:fixed;
-  font-size:1.4rem;
-  opacity:0;
-  pointer-events:none;
-  z-index:1;
-  animation:fall linear infinite;
-}
-@keyframes fall{
-  0%{transform:translateY(-60px) rotate(0deg);opacity:0.8;}
-  100%{transform:translateY(110vh) rotate(720deg);opacity:0;}
-}
-
-/* background text layer */
-.bg-text-layer{
-  position:fixed;
-  inset:0;
-  z-index:1;
-  overflow:hidden;
-  pointer-events:none;
-}
+.bg-text-layer{position:fixed;inset:0;z-index:1;overflow:hidden;pointer-events:none;}
 .bg-word{
   position:absolute;
   font-family:'Playfair Display',serif;
   font-style:italic;
-  color:rgba(255,255,255,0.06);
+  color:rgba(255,255,255,0.055);
   font-size:clamp(2rem,5vw,4rem);
   white-space:nowrap;
   user-select:none;
 }
 
-/* card */
 .card{
   position:relative;
   z-index:10;
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  border:1px solid rgba(255,255,255,0.18);
+  background:rgba(10,0,20,0.55);
+  backdrop-filter:blur(28px);
+  -webkit-backdrop-filter:blur(28px);
+  border:1px solid rgba(255,255,255,0.22);
   border-radius:28px;
   padding:50px 44px 44px;
   width:92%;
   max-width:520px;
   text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+  box-shadow:0 24px 70px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
-/* pages */
-.page{display:none;animation:fadeUp 0.6s ease forwards;}
+.page{display:none;animation:fadeUp 0.55s ease forwards;}
 .page.active{display:block;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 
-/* typography */
+/* ---- TYPOGRAPHY ---- */
 .pet-names{
   font-family:'Cormorant Garamond',serif;
   font-style:italic;
-  color:rgba(255,220,240,0.7);
-  font-size:1rem;
-  letter-spacing:0.04em;
+  color:rgba(255,210,235,0.85);
+  font-size:1.05rem;
+  letter-spacing:0.05em;
   margin-bottom:22px;
-  line-height:1.9;
+  line-height:2;
 }
 .big-q{
   font-family:'Playfair Display',serif;
   color:#fff;
-  font-size:clamp(1.6rem,4vw,2.2rem);
-  line-height:1.35;
+  font-size:clamp(1.65rem,4vw,2.2rem);
+  line-height:1.4;
   margin-bottom:36px;
-  text-shadow:0 2px 20px rgba(255,0,180,0.4);
+  text-shadow:0 0 30px rgba(255,0,180,0.5),0 2px 8px rgba(0,0,0,0.8);
 }
 .section-title{
   font-family:'Playfair Display',serif;
   font-style:italic;
   color:#fff;
-  font-size:1.8rem;
-  margin-bottom:28px;
-  text-shadow:0 2px 16px rgba(255,80,0,0.4);
+  font-size:1.85rem;
+  margin-bottom:10px;
+  text-shadow:0 0 24px rgba(255,80,0,0.5),0 2px 8px rgba(0,0,0,0.8);
 }
 .step-hint{
   font-family:'Cormorant Garamond',serif;
   font-style:italic;
-  color:rgba(255,200,220,0.65);
-  font-size:0.92rem;
+  color:rgba(255,210,230,0.8);
+  font-size:1rem;
   margin-bottom:20px;
   letter-spacing:0.03em;
 }
 
-/* YES button */
+/* ---- BUTTONS ---- */
 .btn-yes{
   background:linear-gradient(135deg,#FF00FF,#FF6B35);
   color:#fff;
   border:none;
-  padding:14px 48px;
-  font-size:1.1rem;
+  padding:15px 52px;
+  font-size:1.05rem;
   font-family:'Lato',sans-serif;
-  font-weight:400;
-  letter-spacing:0.08em;
+  font-weight:700;
+  letter-spacing:0.1em;
   border-radius:50px;
   cursor:pointer;
   transition:transform 0.2s,box-shadow 0.2s;
-  box-shadow:0 6px 28px rgba(255,0,200,0.45);
+  box-shadow:0 6px 28px rgba(255,0,200,0.5);
   text-transform:uppercase;
 }
-.btn-yes:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 10px 36px rgba(255,0,200,0.6);}
+.btn-yes:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 10px 36px rgba(255,0,200,0.7);}
 
-/* NO button */
 #btnNo{
   position:fixed;
-  background:rgba(255,255,255,0.12);
-  color:rgba(255,200,220,0.8);
-  border:1px solid rgba(255,255,255,0.2);
-  padding:12px 36px;
-  font-size:0.95rem;
+  background:rgba(255,255,255,0.08);
+  color:rgba(255,180,210,0.75);
+  border:1px solid rgba(255,255,255,0.18);
+  padding:11px 32px;
+  font-size:0.9rem;
   font-family:'Lato',sans-serif;
   border-radius:50px;
   cursor:not-allowed;
-  transition:none;
   z-index:100;
-  top:80%;
-  left:60%;
-  letter-spacing:0.05em;
+  top:80%;left:60%;
+  letter-spacing:0.06em;
   text-transform:uppercase;
+  transition:none;
 }
 
-/* next button */
 .btn-next{
-  background:rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.12);
   color:#fff;
-  border:1px solid rgba(255,255,255,0.35);
-  padding:12px 40px;
+  border:1.5px solid rgba(255,255,255,0.4);
+  padding:13px 42px;
   font-size:1rem;
   font-family:'Lato',sans-serif;
-  letter-spacing:0.06em;
+  font-weight:700;
+  letter-spacing:0.08em;
   border-radius:50px;
   cursor:pointer;
   transition:background 0.2s,transform 0.2s;
-  margin-top:18px;
+  margin-top:20px;
   text-transform:uppercase;
 }
-.btn-next:hover{background:rgba(255,255,255,0.25);transform:translateY(-2px);}
+.btn-next:hover{background:rgba(255,255,255,0.22);transform:translateY(-2px);}
 
-/* date grid */
+/* ---- DATE CARDS ---- */
 .date-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
-  margin:18px 0 6px;
+  margin:18px 0 8px;
 }
 .date-card{
-  background:rgba(255,255,255,0.09);
-  border:1.5px solid rgba(255,255,255,0.15);
-  border-radius:14px;
-  padding:14px 10px;
+  background:rgba(255,255,255,0.1);
+  border:1.5px solid rgba(255,255,255,0.28);
+  border-radius:16px;
+  padding:16px 10px;
   cursor:pointer;
   transition:all 0.22s;
   color:#fff;
 }
-.date-card:hover,.date-card.sel{
-  background:rgba(255,0,200,0.25);
-  border-color:rgba(255,0,200,0.7);
-  box-shadow:0 0 18px rgba(255,0,200,0.3);
+.date-card:hover{
+  background:rgba(255,0,200,0.2);
+  border-color:rgba(255,80,220,0.8);
+  box-shadow:0 0 20px rgba(255,0,200,0.35);
+}
+.date-card.sel{
+  background:rgba(255,0,200,0.28);
+  border-color:#FF00FF;
+  box-shadow:0 0 22px rgba(255,0,200,0.45);
 }
 .date-card .day-name{
   font-family:'Cormorant Garamond',serif;
   font-style:italic;
-  color:rgba(255,200,230,0.8);
-  font-size:0.85rem;
-  margin-bottom:4px;
+  color:rgba(255,215,240,1);
+  font-size:0.9rem;
+  font-weight:600;
+  margin-bottom:5px;
+  letter-spacing:0.02em;
 }
 .date-card .day-num{
   font-family:'Playfair Display',serif;
-  font-size:1.5rem;
+  font-size:2rem;
   font-weight:700;
+  color:#fff;
+  line-height:1;
 }
 .date-card .month{
-  font-size:0.8rem;
-  color:rgba(255,255,255,0.65);
-  letter-spacing:0.05em;
-  margin-top:2px;
+  font-size:0.78rem;
+  font-weight:700;
+  color:rgba(255,230,245,0.9);
+  letter-spacing:0.12em;
+  margin-top:4px;
+  text-transform:uppercase;
 }
 
-/* time select */
+/* ---- TIME SELECT ---- */
 .time-select{
   width:100%;
   padding:13px 16px;
-  margin-top:18px;
+  margin-top:16px;
   border-radius:12px;
-  border:1.5px solid rgba(255,255,255,0.25);
-  background:rgba(255,255,255,0.1);
+  border:1.5px solid rgba(255,255,255,0.35);
+  background:rgba(255,255,255,0.12);
   color:#fff;
   font-size:1rem;
   font-family:'Lato',sans-serif;
+  font-weight:400;
   appearance:none;
   -webkit-appearance:none;
   cursor:pointer;
   letter-spacing:0.03em;
 }
-.time-select option{background:#3a0025;color:#fff;}
-.time-select:focus{outline:none;border-color:rgba(255,0,200,0.7);}
+.time-select option{background:#2a0018;color:#fff;}
+.time-select:focus{outline:none;border-color:#FF00FF;}
 
-/* vibe pills */
-.vibe-grid{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin:20px 0 8px;
-}
+/* ---- VIBE PILLS ---- */
+.vibe-grid{display:flex;flex-direction:column;gap:10px;margin:20px 0 10px;}
 .vibe-label{
   display:flex;
   align-items:center;
   gap:14px;
-  background:rgba(255,255,255,0.09);
-  border:1.5px solid rgba(255,255,255,0.14);
+  background:rgba(255,255,255,0.1);
+  border:1.5px solid rgba(255,255,255,0.28);
   border-radius:14px;
-  padding:14px 18px;
+  padding:15px 18px;
   cursor:pointer;
   transition:all 0.2s;
   color:#fff;
   font-family:'Cormorant Garamond',serif;
-  font-size:1.15rem;
-  letter-spacing:0.03em;
+  font-size:1.2rem;
+  font-weight:600;
+  letter-spacing:0.04em;
   text-align:left;
 }
-.vibe-label:hover,.vibe-label.sel{
-  background:rgba(255,100,0,0.22);
-  border-color:rgba(255,120,0,0.65);
-  box-shadow:0 0 16px rgba(255,100,0,0.25);
+.vibe-label:hover{
+  background:rgba(255,100,0,0.2);
+  border-color:rgba(255,140,0,0.75);
+  box-shadow:0 0 18px rgba(255,100,0,0.3);
 }
-.vibe-label input[type=radio]{
-  accent-color:#FF6B35;
-  width:18px;height:18px;
-  flex-shrink:0;
+.vibe-label.sel{
+  background:rgba(255,100,0,0.28);
+  border-color:#FF6B35;
+  box-shadow:0 0 20px rgba(255,100,0,0.4);
 }
-.vibe-emoji{font-size:1.4rem;}
+.vibe-label input[type=radio]{accent-color:#FF6B35;width:18px;height:18px;flex-shrink:0;}
+.vibe-emoji{font-size:1.35rem;}
 
-/* progress dots */
-.dots{display:flex;justify-content:center;gap:8px;margin-bottom:28px;}
-.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.25);transition:background 0.3s;}
-.dot.active{background:#FF00FF;}
+/* ---- DOTS ---- */
+.dots{display:flex;justify-content:center;gap:8px;margin-bottom:26px;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);transition:background 0.3s,transform 0.3s;}
+.dot.active{background:#FF00FF;transform:scale(1.3);}
 
-/* hearts burst */
+/* ---- HEARTS BURST ---- */
 .heart-burst{
-  position:fixed;
-  pointer-events:none;
-  z-index:9999;
-  font-size:1.5rem;
+  position:fixed;pointer-events:none;z-index:9999;font-size:1.5rem;
   animation:burstUp 1s ease forwards;
 }
 @keyframes burstUp{
   0%{opacity:1;transform:translate(0,0) scale(1);}
-  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0.5);}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0.4);}
 }
 
-/* success page */
-.success-icon{font-size:3.5rem;margin-bottom:18px;}
+/* ---- SUCCESS PAGE ---- */
+.success-icon{font-size:3.5rem;margin-bottom:16px;}
 .success-text{
   font-family:'Playfair Display',serif;
   font-style:italic;
   color:#fff;
-  font-size:1.7rem;
+  font-size:1.75rem;
   margin-bottom:12px;
+  text-shadow:0 0 24px rgba(255,0,180,0.5);
 }
 .success-sub{
   font-family:'Cormorant Garamond',serif;
-  color:rgba(255,210,230,0.8);
-  font-size:1.05rem;
-  line-height:1.7;
+  color:rgba(255,215,235,0.9);
+  font-size:1.1rem;
+  line-height:1.75;
+  font-weight:600;
 }
 
-/* error message */
-.err{color:#ffaacc;font-size:0.85rem;margin-top:8px;font-style:italic;display:none;}
+/* ---- ERROR ---- */
+.err{color:#ffb3d1;font-size:0.88rem;margin-top:8px;font-style:italic;display:none;letter-spacing:0.02em;}
+
+/* ---- MODAL OVERLAY ---- */
+#gadhaModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9998;
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  align-items:center;
+  justify-content:center;
+}
+#gadhaModal.show{display:flex;}
+
+.modal-box{
+  background:rgba(10,0,22,0.92);
+  border:1.5px solid rgba(255,100,200,0.45);
+  border-radius:24px;
+  padding:50px 44px 44px;
+  max-width:460px;
+  width:88%;
+  text-align:center;
+  box-shadow:0 24px 80px rgba(255,0,180,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+  animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  position:relative;
+}
+@keyframes popIn{
+  from{opacity:0;transform:scale(0.7);}
+  to{opacity:1;transform:scale(1);}
+}
+
+.modal-deco{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  color:rgba(255,160,220,0.4);
+  font-size:0.85rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  margin-bottom:18px;
+}
+.modal-quote{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  color:#fff;
+  font-size:clamp(1.3rem,3.5vw,1.65rem);
+  line-height:1.55;
+  text-shadow:0 0 28px rgba(255,0,180,0.45),0 2px 8px rgba(0,0,0,0.9);
+  margin-bottom:22px;
+}
+.modal-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  color:rgba(255,210,235,0.75);
+  font-size:1rem;
+  line-height:1.7;
+  margin-bottom:28px;
+}
+.modal-close{
+  background:linear-gradient(135deg,#FF00FF,#FF6B35);
+  color:#fff;
+  border:none;
+  padding:12px 38px;
+  border-radius:50px;
+  font-family:'Lato',sans-serif;
+  font-weight:700;
+  font-size:0.95rem;
+  letter-spacing:0.08em;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(255,0,200,0.45);
+  text-transform:uppercase;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.modal-close:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,0,200,0.6);}
+.modal-rose{font-size:2.2rem;margin-bottom:12px;}
 </style>
 </head>
 <body>
 
-<!-- orbs -->
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
 <div class="orb orb3"></div>
 
-<!-- bg text -->
 <div class="bg-text-layer">
-  <div class="bg-word" style="top:5%;left:2%;">adiba</div>
-  <div class="bg-word" style="top:18%;right:4%;">tadiba</div>
-  <div class="bg-word" style="top:35%;left:6%;">huneybunch</div>
-  <div class="bg-word" style="top:52%;right:8%;">sugarcream</div>
-  <div class="bg-word" style="top:68%;left:3%;">pumpkin</div>
-  <div class="bg-word" style="top:80%;right:5%;">pewdepie</div>
-  <div class="bg-word" style="top:90%;left:25%;">adiba</div>
-  <div class="bg-word" style="top:43%;left:45%;">tadiba</div>
-  <div class="bg-word" style="top:72%;right:30%;">huneybunch</div>
+  <div class="bg-word" style="top:4%;left:2%;">adiba</div>
+  <div class="bg-word" style="top:17%;right:3%;">tadiba</div>
+  <div class="bg-word" style="top:34%;left:5%;">huneybunch</div>
+  <div class="bg-word" style="top:51%;right:7%;">sugarcream</div>
+  <div class="bg-word" style="top:67%;left:3%;">pumpkin</div>
+  <div class="bg-word" style="top:80%;right:4%;">pewdepie</div>
+  <div class="bg-word" style="top:90%;left:22%;">adiba</div>
+  <div class="bg-word" style="top:44%;left:43%;">tadiba</div>
+  <div class="bg-word" style="top:73%;right:28%;">huneybunch</div>
 </div>
 
-<!-- no button (always present, escapes) -->
 <button id="btnNo" onclick="return false;">No</button>
+
+<!-- GADHA MODAL -->
+<div id="gadhaModal">
+  <div class="modal-box">
+    <div class="modal-rose">🌹</div>
+    <div class="modal-deco">— a message for you —</div>
+    <p class="modal-quote">i sada gadha ta boleche<br>bagh ke mukh fulai boshe thakte</p>
+    <p class="modal-sub">karon tumi raji hoeche.<br>ar se sobcheye khushi manush. 🌸</p>
+    <button class="modal-close" onclick="closeModal()">Aww okay 💗</button>
+  </div>
+</div>
 
 <div class="card">
 
@@ -352,35 +409,33 @@ body{
     <div class="dots"><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
     <p class="section-title">When are we going?</p>
     <p class="step-hint">pick a date that works for you, love</p>
-
     <div class="date-grid" id="dateGrid">
       <div class="date-card" data-val="13 June (Saturday)" onclick="pickDate(this)">
         <div class="day-name">Saturday</div>
         <div class="day-num">13</div>
-        <div class="month">JUNE</div>
+        <div class="month">June</div>
       </div>
       <div class="date-card" data-val="14 June (Sunday)" onclick="pickDate(this)">
         <div class="day-name">Sunday</div>
         <div class="day-num">14</div>
-        <div class="month">JUNE</div>
+        <div class="month">June</div>
       </div>
       <div class="date-card" data-val="19 June (Friday)" onclick="pickDate(this)">
         <div class="day-name">Friday</div>
         <div class="day-num">19</div>
-        <div class="month">JUNE</div>
+        <div class="month">June</div>
       </div>
       <div class="date-card" data-val="20 June (Saturday)" onclick="pickDate(this)">
         <div class="day-name">Saturday</div>
         <div class="day-num">20</div>
-        <div class="month">JUNE</div>
+        <div class="month">June</div>
       </div>
       <div class="date-card" style="grid-column:1/-1;" data-val="21 June (Sunday)" onclick="pickDate(this)">
         <div class="day-name">Sunday</div>
         <div class="day-num">21</div>
-        <div class="month">JUNE</div>
+        <div class="month">June</div>
       </div>
     </div>
-
     <select class="time-select" id="timeSelect">
       <option value="" disabled selected>— pick a time —</option>
       <option>12:00 PM (noon)</option>
@@ -405,185 +460,162 @@ body{
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
     <p class="section-title">What's the vibe?</p>
     <p class="step-hint">choose the flavour of this evening</p>
-
-    <div class="vibe-grid" id="vibeGrid">
+    <div class="vibe-grid">
       <label class="vibe-label" onclick="pickVibe(this)">
-        <input type="radio" name="vibe" value="Coffee"> <span class="vibe-emoji">☕</span> Coffee
+        <input type="radio" name="vibe" value="Coffee"><span class="vibe-emoji">☕</span>Coffee
       </label>
       <label class="vibe-label" onclick="pickVibe(this)">
-        <input type="radio" name="vibe" value="Borger"> <span class="vibe-emoji">🍔</span> Borger
+        <input type="radio" name="vibe" value="Borger"><span class="vibe-emoji">🍔</span>Borger
       </label>
       <label class="vibe-label" onclick="pickVibe(this)">
-        <input type="radio" name="vibe" value="1st Food"> <span class="vibe-emoji">🍽️</span> 1st Food
+        <input type="radio" name="vibe" value="1st Food"><span class="vibe-emoji">🍽️</span>1st Food
       </label>
       <label class="vibe-label" onclick="pickVibe(this)">
-        <input type="radio" name="vibe" value="Lunch"> <span class="vibe-emoji">🥗</span> Lunch
+        <input type="radio" name="vibe" value="Lunch"><span class="vibe-emoji">🥗</span>Lunch
       </label>
       <label class="vibe-label" onclick="pickVibe(this)">
-        <input type="radio" name="vibe" value="Hanging in Open"> <span class="vibe-emoji">🌆</span> Hanging in Open
+        <input type="radio" name="vibe" value="Hanging in Open"><span class="vibe-emoji">🌆</span>Hanging in Open
       </label>
     </div>
-
     <div class="err" id="err3">please choose a vibe first 🌸</div>
-    <button class="btn-yes" style="margin-top:20px;" onclick="submitForm()">Send it to him 💌</button>
+    <button class="btn-yes" style="margin-top:22px;" onclick="submitForm()">Send it to him 💌</button>
   </div>
 
-  <!-- PAGE 4 (success) -->
+  <!-- PAGE 4 -->
   <div id="page4" class="page">
     <div class="success-icon">💌</div>
     <p class="success-text">It's a date.</p>
-    <p class="success-sub">He's going to be the happiest gorib alive.<br>See you soon, adiba. 🌸</p>
+    <p class="success-sub">He's going to be the happiest<br>gorib alive. See you soon, adiba. 🌸</p>
   </div>
 
 </div>
 
 <script>
-// --- state ---
-var selDate = "";
-var selTime = "";
-var selVibe = "";
+var selDate="",selTime="",selVibe="";
+var W3F_KEY="9562bc22-0bba-46a9-98b7-cefb07ac752c";
 
-// web3forms key
-var W3F_KEY = "9562bc22-0bba-46a9-98b7-cefb07ac752c";
-
-// --- no button ---
-var no = document.getElementById("btnNo");
+var no=document.getElementById("btnNo");
 function moveNo(){
-  var maxX = window.innerWidth  - no.offsetWidth  - 20;
-  var maxY = window.innerHeight - no.offsetHeight - 20;
-  no.style.left = Math.max(10, Math.random()*maxX) + "px";
-  no.style.top  = Math.max(10, Math.random()*maxY) + "px";
+  var mx=window.innerWidth-no.offsetWidth-20;
+  var my=window.innerHeight-no.offsetHeight-20;
+  no.style.left=Math.max(10,Math.random()*mx)+"px";
+  no.style.top=Math.max(10,Math.random()*my)+"px";
 }
-no.addEventListener("mouseover", moveNo);
-no.addEventListener("touchstart", function(e){e.preventDefault();moveNo();});
+no.addEventListener("mouseover",moveNo);
+no.addEventListener("touchstart",function(e){e.preventDefault();moveNo();});
 
-// --- page nav ---
-function goPage(from, to){
-  var fp = document.getElementById("page"+from);
-  var tp = document.getElementById("page"+to);
-  fp.classList.remove("active");
-  setTimeout(function(){tp.classList.add("active");}, 60);
+function goPage(f,t){
+  document.getElementById("page"+f).classList.remove("active");
+  setTimeout(function(){document.getElementById("page"+t).classList.add("active");},60);
 }
 
-// --- date pick ---
 function pickDate(el){
   document.querySelectorAll(".date-card").forEach(function(c){c.classList.remove("sel");});
   el.classList.add("sel");
-  selDate = el.getAttribute("data-val");
+  selDate=el.getAttribute("data-val");
 }
 
-// --- vibe pick ---
 function pickVibe(el){
   document.querySelectorAll(".vibe-label").forEach(function(l){l.classList.remove("sel");});
   el.classList.add("sel");
-  el.querySelector("input").checked = true;
-  selVibe = el.querySelector("input").value;
+  el.querySelector("input").checked=true;
+  selVibe=el.querySelector("input").value;
 }
 
-// --- page 2 next ---
 function nextPage2(){
-  selTime = document.getElementById("timeSelect").value;
-  var err = document.getElementById("err2");
-  if(!selDate || !selTime){
-    err.style.display="block";
-    setTimeout(function(){err.style.display="none";},3000);
-    return;
-  }
+  selTime=document.getElementById("timeSelect").value;
+  var err=document.getElementById("err2");
+  if(!selDate||!selTime){err.style.display="block";setTimeout(function(){err.style.display="none";},3000);return;}
   err.style.display="none";
   goPage(2,3);
 }
 
-// --- submit ---
 function submitForm(){
-  var err = document.getElementById("err3");
-  if(!selVibe){
-    err.style.display="block";
-    setTimeout(function(){err.style.display="none";},3000);
-    return;
-  }
+  var err=document.getElementById("err3");
+  if(!selVibe){err.style.display="block";setTimeout(function(){err.style.display="none";},3000);return;}
   err.style.display="none";
 
-  var payload = {
-    access_key: W3F_KEY,
-    subject: "Adiba Said YES! 🎉",
-    from_name: "Borger Date App",
-    "Selected Date": selDate,
-    "Selected Time": selTime,
-    "Vibe": selVibe
-  };
-
-  fetch("https://api.web3forms.com/submit", {
+  fetch("https://api.web3forms.com/submit",{
     method:"POST",
     headers:{"Content-Type":"application/json","Accept":"application/json"},
-    body: JSON.stringify(payload)
+    body:JSON.stringify({
+      access_key:W3F_KEY,
+      subject:"Adiba Said YES! 🎉",
+      from_name:"Borger Date App",
+      "Selected Date":selDate,
+      "Selected Time":selTime,
+      "Vibe":selVibe
+    })
   })
   .then(function(r){return r.json();})
-  .then(function(data){
-    goPage(3,4);
-    launchCelebration();
-  })
-  .catch(function(){
-    // show success anyway for UX
-    goPage(3,4);
-    launchCelebration();
+  .catch(function(){})
+  .finally(function(){
+    showGadhaModal();
   });
 }
 
-// --- hearts burst on yes click ---
+function showGadhaModal(){
+  var m=document.getElementById("gadhaModal");
+  m.classList.add("show");
+  launchCelebration();
+  // after closing modal, go to success
+}
+
+function closeModal(){
+  document.getElementById("gadhaModal").classList.remove("show");
+  goPage(3,4);
+  setTimeout(launchCelebration,400);
+}
+
 function burst(e){
-  var x = e.clientX, y = e.clientY;
-  var symbols = ["💗","🌸","✨","💫","🧡","💖"];
-  for(var i=0;i<12;i++){
-    var el = document.createElement("div");
-    el.className = "heart-burst";
-    el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
-    var dx = (Math.random()-0.5)*200 + "px";
-    var dy = -(60 + Math.random()*160) + "px";
-    el.style.setProperty("--dx",dx);
-    el.style.setProperty("--dy",dy);
-    el.style.left = x + "px";
-    el.style.top  = y + "px";
+  var x=e.clientX,y=e.clientY;
+  var s=["💗","🌸","✨","💫","🧡","💖"];
+  for(var i=0;i<14;i++){
+    var el=document.createElement("div");
+    el.className="heart-burst";
+    el.textContent=s[Math.floor(Math.random()*s.length)];
+    el.style.setProperty("--dx",(Math.random()-0.5)*220+"px");
+    el.style.setProperty("--dy",-(70+Math.random()*170)+"px");
+    el.style.left=x+"px";el.style.top=y+"px";
     document.body.appendChild(el);
-    setTimeout(function(e){e.remove();},1000,el);
+    setTimeout(function(e){e.remove();},1100,el);
   }
 }
 
-// --- celebration petals ---
 function launchCelebration(){
-  var symbols = ["🌸","💗","✨","🧡","💖","🌷","💫"];
+  var s=["🌸","💗","✨","🧡","💖","🌷","💫"];
   for(var i=0;i<30;i++){
     (function(idx){
       setTimeout(function(){
-        var p = document.createElement("div");
-        p.className = "petal";
-        p.textContent = symbols[Math.floor(Math.random()*symbols.length)];
-        p.style.left  = Math.random()*100 + "vw";
-        p.style.animationDuration = (4+Math.random()*5) + "s";
-        p.style.animationDelay   = (Math.random()*3) + "s";
-        p.style.fontSize = (1+Math.random()) + "rem";
+        var p=document.createElement("div");
+        p.className="petal";
+        p.textContent=s[Math.floor(Math.random()*s.length)];
+        p.style.left=Math.random()*100+"vw";
+        p.style.animationDuration=(4+Math.random()*5)+"s";
+        p.style.animationDelay=(Math.random()*2)+"s";
+        p.style.fontSize=(1+Math.random())+"rem";
         document.body.appendChild(p);
         setTimeout(function(){p.remove();},9000);
-      }, idx*200);
+      },idx*180);
     })(i);
   }
 }
 
-// spawn a few petals on load
-window.addEventListener("load", function(){
+window.addEventListener("load",function(){
   setTimeout(function(){
-    var s = ["🌸","💗","✨"];
-    for(var i=0;i<6;i++){
+    var s=["🌸","💗","✨"];
+    for(var i=0;i<5;i++){
       (function(ii){
         setTimeout(function(){
-          var p = document.createElement("div");
+          var p=document.createElement("div");
           p.className="petal";
           p.textContent=s[ii%s.length];
           p.style.left=Math.random()*100+"vw";
           p.style.animationDuration=(6+Math.random()*4)+"s";
-          p.style.animationDelay=(Math.random()*4)+"s";
+          p.style.animationDelay=(Math.random()*3)+"s";
           document.body.appendChild(p);
           setTimeout(function(){p.remove();},12000);
-        },ii*600);
+        },ii*700);
       })(i);
     }
   },800);
